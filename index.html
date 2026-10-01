@@ -219,7 +219,7 @@ function load(){try{var r=localStorage.getItem(KEY);if(r){var o=migrate(JSON.par
 function saveLocal(){try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){mem=S;}}
 function save(){S.updatedAt=Date.now();saveLocal();if(cloudRef)pushCloud();}
 
-var S=load(),P=null,mode="home",editOpen=null,menuOpen=false,homeEdit=null,pendReps=5,pendIdx=-1,lastSummary=null,calYear=null,calMonth=null,quitArmed=false,delArm=null,wipeArmed=false;
+var S=load(),P=null,mode="home",editOpen=null,menuOpen=false,homeEdit=null,pendReps=5,pendIdx=-1,lastSummary=null,calYear=null,calMonth=null,quitArmed=false,delArm=null,wipeArmed=false,importArmed=false;
 function bindProfile(){if(!S||!S.profiles)S=defaultContainer();if(!S.currentProfile||!S.profiles[S.currentProfile]){var k=Object.keys(S.profiles);S.currentProfile=k.length?k[0]:null;if(!S.currentProfile)S=defaultContainer();}if(!S.profileOrder||!S.profileOrder.length)S.profileOrder=Object.keys(S.profiles);else{Object.keys(S.profiles).forEach(function(k){if(S.profileOrder.indexOf(k)<0)S.profileOrder.push(k);});S.profileOrder=S.profileOrder.filter(function(k){return S.profiles[k];});}P=S.profiles[S.currentProfile];normalize(P);}
 bindProfile();
 if(P.active&&P.active.steps&&P.active.steps.length)mode=(P.active.phase==="intensity")?"intensity":"run";else mode="home";
@@ -337,8 +337,8 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   '<div class="set"><h3>Plates you own ('+escapeHtml(P.name)+')</h3>'+plateRows+'<div class="hint">Untick any plate you don\'t have — the loading diagram will only use what\'s available, and flag a weight it can\'t make exactly.</div></div>'+
   '<div class="set"><h3>Weight steps ('+escapeHtml(P.name)+')</h3>'+incRows+'<div class="hint">Drop a lift to 1.25 when 2.5 stops working.</div></div>'+
   '<div class="set"><h3>Appearance</h3><div class="item"><div class="k">Theme</div><div class="seg">'+["auto","light","dark"].map(function(t){return '<button data-theme="'+t+'" class="'+(S.theme===t?"on":"")+'">'+t+'</button>';}).join("")+'</div></div></div>'+
-  '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io" readonly onclick="this.select()">'+escapeHtml(JSON.stringify(S))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button><button class="btn" data-import>Load from text</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r6 · dvh full-screen</div>';
+  '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io"'+(importArmed?' placeholder="Paste the full backup text here, then tap Load now"':' readonly onclick="this.select()"')+'>'+(importArmed?'':escapeHtml(JSON.stringify(S)))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button><button class="btn'+(importArmed?' danger':'')+'" data-import>'+(importArmed?'Load now':'Load from text')+'</button></div></div>'+
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r7 · fixed backup import</div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
@@ -403,7 +403,7 @@ document.addEventListener("click",function(ev){
   var t=ev.target.closest("[data-calnav],[data-tab],[data-pmenu],[data-pclose],[data-psel],[data-padd],[data-paddset],[data-pruse],[data-prdel],[data-start],[data-resume],[data-done],[data-skiprest],[data-repminus],[data-repplus],[data-quit],[data-intensity],[data-sumdone],[data-xlsx],[data-hedit],[data-hwadj],[data-incadj],[data-baradj],[data-restadj],[data-plate],[data-theme],[data-copy],[data-import],[data-wipe]");
   if(!t){if(ev.target&&ev.target.id==="modal"){menuOpen=false;renderModal();}return;}
   var d=t.dataset;
-  if(d.tab){mode=d.tab;editOpen=null;homeEdit=null;quitArmed=false;delArm=null;wipeArmed=false;safeRender();return;}
+  if(d.tab){mode=d.tab;editOpen=null;homeEdit=null;quitArmed=false;delArm=null;wipeArmed=false;importArmed=false;safeRender();return;}
   if(d.calnav){if(calMonth==null){var n=new Date();calYear=n.getFullYear();calMonth=n.getMonth();}calMonth+=(+d.calnav);if(calMonth<0){calMonth=11;calYear--;}if(calMonth>11){calMonth=0;calYear++;}renderCalendar();return;}
   if(t.hasAttribute("data-pmenu")){menuOpen=true;renderModal();return;}
   if(t.hasAttribute("data-pclose")){menuOpen=false;renderModal();return;}
@@ -430,7 +430,7 @@ document.addEventListener("click",function(ev){
   if(d.plate){var pw=+d.plate,pi=P.plates.indexOf(pw);if(pi>=0)P.plates.splice(pi,1);else P.plates.push(pw);save();renderSettings();return;}
   if(d.theme){S.theme=d.theme;save();safeRender();return;}
   if(t.hasAttribute("data-copy")){var ta=document.getElementById("io");try{ta.select();document.execCommand&&document.execCommand("copy");}catch(e){}if(navigator.clipboard){navigator.clipboard.writeText(ta.value).then(function(){toast("Backup copied");},function(){toast("Selected — copy manually");});}else toast("Selected — copy manually");return;}
-  if(t.hasAttribute("data-import")){var ta2=document.getElementById("io");ta2.removeAttribute("readonly");ta2.value="";ta2.focus();toast("Paste your backup, then tap Load again");t.textContent="Load now";t.addEventListener("click",function(){try{var obj=migrate(JSON.parse(ta2.value));if(!validContainer(obj))throw 0;S=obj;bindProfile();mode="home";save();toast("Data loaded");safeRender();}catch(e){toast("That text isn't a valid backup");}},{once:true});return;}
+  if(t.hasAttribute("data-import")){if(!importArmed){importArmed=true;renderSettings();toast("Paste the full backup, then tap Load now");return;}var ta2=document.getElementById("io"),txt=ta2?ta2.value:"";try{var obj=migrate(JSON.parse(txt));if(!validContainer(obj))throw 0;S=obj;bindProfile();importArmed=false;mode="home";save();safeRender();toast("Data loaded \u2713");}catch(e){toast("Not a valid/complete backup — paste the whole text");}return;}
   if(t.hasAttribute("data-wipe")){if(wipeArmed){wipeArmed=false;S=defaultContainer();S.updatedAt=Date.now();bindProfile();mode="home";saveLocal();if(cloudRef)pushCloud();editOpen=null;toast("Reset to defaults");safeRender();}else{wipeArmed=true;renderSettings();setTimeout(function(){if(wipeArmed){wipeArmed=false;if(mode==="settings")renderSettings();}},3500);}return;}
 });
 document.addEventListener("input",function(ev){var el=ev.target;if(!el||!el.dataset)return;if(el.dataset.prn){renameProfile(el.dataset.prn,el.value);}});
