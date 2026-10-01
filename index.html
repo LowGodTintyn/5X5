@@ -25,7 +25,7 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple
 .num{font-family:"Barlow Condensed",system-ui,sans-serif;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.2px}
 button{font-family:inherit;cursor:pointer;border:none;background:none;color:inherit}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-#app{position:fixed;top:0;bottom:0;left:0;right:0;max-width:520px;margin:0 auto;display:flex;flex-direction:column}
+#app{height:100vh;height:100dvh;max-width:520px;margin:0 auto;display:flex;flex-direction:column}
 #view{flex:1;min-height:0;padding:env(safe-area-inset-top,0px) 16px 24px;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
 
 .pbar{padding:14px 2px 0}
@@ -338,7 +338,7 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   '<div class="set"><h3>Weight steps ('+escapeHtml(P.name)+')</h3>'+incRows+'<div class="hint">Drop a lift to 1.25 when 2.5 stops working.</div></div>'+
   '<div class="set"><h3>Appearance</h3><div class="item"><div class="k">Theme</div><div class="seg">'+["auto","light","dark"].map(function(t){return '<button data-theme="'+t+'" class="'+(S.theme===t?"on":"")+'">'+t+'</button>';}).join("")+'</div></div></div>'+
   '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io" readonly onclick="this.select()">'+escapeHtml(JSON.stringify(S))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button><button class="btn" data-import>Load from text</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r5 · tighter bottom bar</div>';
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r6 · dvh full-screen</div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
