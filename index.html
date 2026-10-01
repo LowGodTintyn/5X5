@@ -91,7 +91,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none;color:inhe
 .sumrow .v{font-weight:600}
 
 .bb{overflow-x:auto;-webkit-overflow-scrolling:touch}.bbsvg{height:auto;display:block;margin:0 auto}.cap{margin-top:6px}.cap .lab{color:var(--faint);font-size:12px}.warn-txt{color:var(--warn);font-size:12px}
-#tabs{flex-shrink:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+#tabs{flex-shrink:0;background:var(--surface);border-top:1px solid var(--line);padding-bottom:max(6px,calc(env(safe-area-inset-bottom,0px) - 28px))}
 #tabs .in{max-width:520px;margin:0 auto;display:flex}
 #tabs button{flex:1;height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:var(--muted);font-size:11px}
 #tabs button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8}
@@ -338,7 +338,7 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   '<div class="set"><h3>Weight steps ('+escapeHtml(P.name)+')</h3>'+incRows+'<div class="hint">Drop a lift to 1.25 when 2.5 stops working.</div></div>'+
   '<div class="set"><h3>Appearance</h3><div class="item"><div class="k">Theme</div><div class="seg">'+["auto","light","dark"].map(function(t){return '<button data-theme="'+t+'" class="'+(S.theme===t?"on":"")+'">'+t+'</button>';}).join("")+'</div></div></div>'+
   '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io" readonly onclick="this.select()">'+escapeHtml(JSON.stringify(S))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button><button class="btn" data-import>Load from text</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r4 · screen-fit + zoom lock</div>';
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r5 · tighter bottom bar</div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
