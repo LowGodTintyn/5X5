@@ -22,6 +22,8 @@
 :root[data-skin="neon"]{--go:#ff2bd6;--go2:#7a5cff;--go-ink:#14041a;--accent:#ff5be0;--glow:rgba(255,43,214,.28);--vio:rgba(60,140,255,.24)}
 :root[data-skin="stealth"]{--go:#f2f5fb;--go2:#8e98ad;--go-ink:#0a0b0f;--accent:#f2f5fb;--glow:rgba(255,255,255,.1);--vio:rgba(150,160,190,.1);--grid:rgba(255,255,255,.012);--fs:normal}
 :root[data-skin="carbon"]{--bg:#0d0d10;--surface:#17181c;--surface-2:#202228;--line:#2c2e36;--go:#ff1e2d;--go2:#ff7a00;--go-ink:#ffffff;--accent:#ff3a3a;--glow:rgba(255,30,45,.32);--vio:rgba(255,122,0,.1);--grid:transparent}
+:root[data-skin="glass"]{--bg:#080a16;--surface:rgba(255,255,255,.07);--surface-2:rgba(255,255,255,.1);--line:rgba(255,255,255,.16);--ink:#f7f9ff;--muted:#b3bbd6;--faint:#7c86a6;--go:#7ee8fa;--go2:#c58cff;--go-ink:#06101a;--accent:#7ee8fa;--glow:rgba(126,232,250,.35);--vio:rgba(197,140,255,.3);--grid:transparent;--glass:rgba(255,255,255,.07);--hl:rgba(255,255,255,.12);--shadow:0 8px 32px rgba(0,0,0,.35);--fs:normal}
+:root[data-skin="brutal"]{--bg:#0a0a0a;--surface:#141414;--surface-2:#1f1f1f;--line:#4a4a4a;--ink:#ffffff;--muted:#b8b8b8;--faint:#7d7d7d;--go:#ffe600;--go2:#ffe600;--go-ink:#000000;--accent:#ffe600;--glow:transparent;--vio:transparent;--grid:transparent;--glass:#0a0a0a;--hl:transparent;--shadow:none;--fs:normal}
 :root[data-theme="light"]{--bg:#f4f6fb;--surface:#ffffff;--surface-2:#eceff6;--line:#dde2ee;--ink:#10131c;--muted:#5d6579;--faint:#9aa2b6;--go:#6a3df0;--go2:#0aa5d6;--go-ink:#ffffff;--warn:#d98a0b;--bad:#d1304f;--accent:#6a3df0;--glow:rgba(106,61,240,.25);--vio:rgba(10,165,214,.14);--grid:rgba(20,30,60,.04);--glass:rgba(255,255,255,.78);--hl:rgba(255,255,255,.9);--shadow:0 1px 2px rgba(20,30,60,.06),0 8px 24px rgba(20,30,60,.08);color-scheme:light;}
 *{box-sizing:border-box}
 html{scroll-padding-top:env(safe-area-inset-top,0px);-webkit-text-size-adjust:100%}
@@ -199,6 +201,50 @@ body{background:radial-gradient(760px 460px at 8% -10%,var(--glow),transparent 6
 :root[data-skin="carbon"] .rbar i{border-radius:0;background:repeating-linear-gradient(115deg,var(--go) 0 10px,#b00d1a 10px 20px);box-shadow:none}
 :root[data-skin="carbon"] .home-wk,:root[data-skin="carbon"] .hd .tag{background:linear-gradient(100deg,#fff 40%,var(--go));-webkit-background-clip:text;background-clip:text}
 :root[data-skin="carbon"] #tabs{border-top:2px solid var(--go)}
+/* ---- Glass skin: frosted panes over drifting colour ---- */
+:root[data-skin="glass"] body{background:#080a16}
+:root[data-skin="glass"] body::before{content:"";position:fixed;inset:-25%;z-index:0;pointer-events:none;background:radial-gradient(40% 40% at 15% 20%,rgba(255,95,162,.55),transparent 70%),radial-gradient(45% 45% at 85% 80%,rgba(58,107,255,.6),transparent 70%),radial-gradient(35% 35% at 60% 15%,rgba(25,224,192,.4),transparent 70%),radial-gradient(30% 30% at 20% 85%,rgba(160,90,255,.45),transparent 70%);filter:blur(30px);animation:gdrift 26s ease-in-out infinite alternate}
+@keyframes gdrift{to{transform:translate3d(4%,-3%,0) scale(1.12) rotate(6deg)}}
+:root[data-skin="glass"] #app{position:relative;z-index:1}
+:root[data-skin="glass"] .rcard,:root[data-skin="glass"] .set,:root[data-skin="glass"] .pcard,:root[data-skin="glass"] .pchip,:root[data-skin="glass"] #tabs,:root[data-skin="glass"] .btn,:root[data-skin="glass"] .ccell,:root[data-skin="glass"] .igrid button,:root[data-skin="glass"] .stepper,:root[data-skin="glass"] .dbtn,:root[data-skin="glass"] .repadj button{-webkit-backdrop-filter:blur(18px) saturate(150%);backdrop-filter:blur(18px) saturate(150%);background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.17);box-shadow:inset 0 1px 0 rgba(255,255,255,.26),0 8px 30px rgba(0,0,0,.28)}
+:root[data-skin="glass"] .rcard,:root[data-skin="glass"] .set,:root[data-skin="glass"] .pcard{border-radius:24px}
+:root[data-skin="glass"] .rcard::before{opacity:.4}
+:root[data-skin="glass"] .home-lifts{padding:4px 18px;border-radius:24px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.16);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);box-shadow:inset 0 1px 0 rgba(255,255,255,.22)}
+:root[data-skin="brutal"] .home-lifts{padding:2px 14px;border:3px solid #fff;background:#141414}
+:root[data-skin="glass"] .big-btn{border-radius:999px;background:linear-gradient(135deg,rgba(126,232,250,.88),rgba(197,140,255,.88));border:1px solid rgba(255,255,255,.45);box-shadow:inset 0 1px 0 rgba(255,255,255,.65),0 10px 30px var(--glow);text-transform:none;letter-spacing:.6px;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px)}
+:root[data-skin="glass"] .big-btn.ghost{background:rgba(255,255,255,.1);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.26)}
+:root[data-skin="glass"] .rbnum{background:linear-gradient(180deg,#fff,#d6ecff 55%,var(--go));-webkit-background-clip:text;background-clip:text;filter:drop-shadow(0 0 34px var(--glow))}
+:root[data-skin="glass"] .sheet{background:rgba(18,22,44,.9);-webkit-backdrop-filter:blur(24px);backdrop-filter:blur(24px)}
+:root[data-skin="glass"] .seg button.on{color:var(--go-ink)}
+:root[data-skin="glass"] .seg button{background:transparent}
+:root[data-skin="glass"] #tabs{border-radius:0;border-width:1px 0 0}
+/* ---- Brutal skin: flat, outlined, hard shadows, huge type ---- */
+:root[data-skin="brutal"] body{background:#0a0a0a}
+:root[data-skin="brutal"] .rcard,:root[data-skin="brutal"] .set,:root[data-skin="brutal"] .pcard{background:var(--surface);border:3px solid #fff;border-radius:0;box-shadow:7px 7px 0 var(--go)}
+:root[data-skin="brutal"] .rcard::before{display:none}
+:root[data-skin="brutal"] .big-btn{border-radius:0;background:var(--go);color:#000;border:3px solid #fff;box-shadow:6px 6px 0 #fff;text-shadow:none;letter-spacing:1px;transition:none}
+:root[data-skin="brutal"] .big-btn:active{transform:translate(5px,5px);box-shadow:1px 1px 0 #fff;filter:none}
+:root[data-skin="brutal"] .big-btn.ghost{background:#000;color:#fff;border:3px solid #fff}
+:root[data-skin="brutal"] .btn,:root[data-skin="brutal"] .igrid button,:root[data-skin="brutal"] .dbtn,:root[data-skin="brutal"] .repadj button,:root[data-skin="brutal"] .stepper,:root[data-skin="brutal"] .ccell,:root[data-skin="brutal"] .pchip,:root[data-skin="brutal"] .carr,:root[data-skin="brutal"] .seg{border-radius:0;border:2px solid #fff;box-shadow:none}
+:root[data-skin="brutal"] .pchip{background:#000;border-width:3px}
+:root[data-skin="brutal"] .home-wk,:root[data-skin="brutal"] .hd .tag,:root[data-skin="brutal"] .sumbig .st{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--ink);letter-spacing:-.5px}
+:root[data-skin="brutal"] .home-wk{font-size:68px;color:var(--go)}
+:root[data-skin="brutal"] .rname{font-size:44px}
+:root[data-skin="brutal"] .rcard .bw{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:#fff;font-size:76px}
+:root[data-skin="brutal"] .rcard .bw small{-webkit-text-fill-color:#b8b8b8}
+:root[data-skin="brutal"] .rbnum{background:none;-webkit-background-clip:border-box;background-clip:border-box;color:var(--go);filter:none;text-shadow:7px 7px 0 #fff;letter-spacing:-2px}
+:root[data-skin="brutal"] .rbar{border-radius:0;height:16px;border:3px solid #fff;background:#000}
+:root[data-skin="brutal"] .rbar i{border-radius:0;background:var(--go);box-shadow:none;transition:none}
+:root[data-skin="brutal"] .rsets .sd i{border-radius:0;border:2px solid #fff;background:transparent;box-shadow:none}
+:root[data-skin="brutal"] .rsets .sd i.on{background:var(--go);border-color:var(--go);box-shadow:none}
+:root[data-skin="brutal"] .home-eyebrow,:root[data-skin="brutal"] .rbl{color:#fff;background:#000;display:inline-block;padding:2px 8px;border:2px solid #fff}
+:root[data-skin="brutal"] .home-due{color:#fff}
+:root[data-skin="brutal"] #tabs{border-top:4px solid #fff;background:#000}
+:root[data-skin="brutal"] #tabs button.on{background:var(--go);color:#000}
+:root[data-skin="brutal"] #tabs button.on::before{display:none}
+:root[data-skin="brutal"] .seg button.on,:root[data-skin="brutal"] .dbtn.on,:root[data-skin="brutal"] .ptick.on{background:var(--go);color:#000;border-color:var(--go)}
+:root[data-skin="brutal"] .toast{background:var(--go);color:#000;border:3px solid #fff;border-radius:0}
+:root[data-skin="brutal"] .sheet{background:#000;border:3px solid #fff;border-radius:0}
 textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default;font-size:16px!important}
 .skins{display:flex;flex-wrap:wrap;gap:12px;padding:6px 16px 14px}
 .sk{display:flex;flex-direction:column;align-items:center;gap:5px;font-size:11px;color:var(--muted)}
@@ -450,10 +496,10 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   '<div class="set"><h3>Loading ('+escapeHtml(P.name)+')</h3><div class="item"><div class="k">Bar weight</div><div class="stepper"><button data-baradj="-1">−</button><div class="v num">'+fmt(P.bar)+'</div><button data-baradj="1">+</button></div></div><div class="item"><div class="k">Rest timer<small>seconds between work sets</small></div><div class="stepper"><button data-restadj="-1">−</button><div class="v num">'+P.rest+'</div><button data-restadj="1">+</button></div></div></div>'+
   '<div class="set"><h3>Plates you own ('+escapeHtml(P.name)+')</h3>'+plateRows+'<div class="hint">Untick any plate you don\'t have — the loading diagram will only use what\'s available, and flag a weight it can\'t make exactly.</div></div>'+
   '<div class="set"><h3>Weight steps ('+escapeHtml(P.name)+')</h3>'+incRows+'<div class="hint">Drop a lift to 1.25 when 2.5 stops working.</div></div>'+
-  '<div class="set"><h3>Style</h3><div class="skins">'+[["volt","Volt","#c6ff3d","#27e1ff"],["ember","Ember","#ff6a2b","#ff3d6e"],["aurora","Aurora","#2dffc0","#8b5cff"],["gold","Gold","#ffd24a","#ff9f1c"],["neon","Neon","#ff2bd6","#7a5cff"],["stealth","Stealth","#f2f5fb","#8e98ad"],["carbon","Carbon","#ff1e2d","#ff7a00"]].map(function(k){return '<button class="sk'+(((S.skin||"volt")===k[0])?' on':'')+'" data-skin="'+k[0]+'"><i style="background:linear-gradient(135deg,'+k[2]+','+k[3]+')"></i>'+k[1]+'</button>';}).join("")+'</div></div>'+
+  '<div class="set"><h3>Style</h3><div class="skins">'+[["volt","Volt","#c6ff3d","#27e1ff"],["ember","Ember","#ff6a2b","#ff3d6e"],["aurora","Aurora","#2dffc0","#8b5cff"],["gold","Gold","#ffd24a","#ff9f1c"],["neon","Neon","#ff2bd6","#7a5cff"],["stealth","Stealth","#f2f5fb","#8e98ad"],["carbon","Carbon","#ff1e2d","#ff7a00"],["glass","Glass","#7ee8fa","#c58cff"],["brutal","Brutal","#ffe600","#111111"]].map(function(k){return '<button class="sk'+(((S.skin||"volt")===k[0])?' on':'')+'" data-skin="'+k[0]+'"><i style="background:linear-gradient(135deg,'+k[2]+','+k[3]+')"></i>'+k[1]+'</button>';}).join("")+'</div></div>'+
   '<div class="set"><h3>Appearance</h3><div class="item"><div class="k">Theme</div><div class="seg">'+["dark","light"].map(function(t){return '<button data-theme="'+t+'" class="'+((S.theme===t||(t==="dark"&&S.theme==="auto"))?"on":"")+'">'+t+'</button>';}).join("")+'</div></div></div>'+
   '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io"'+(importArmed?' placeholder="Paste the full backup text here, then tap Load now"':' readonly onclick="this.select()"')+'>'+(importArmed?'':escapeHtml(JSON.stringify(S)))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button>'+(importArmed?'<button class="btn" data-paste>Paste</button>':'')+'<button class="btn'+(importArmed?' danger':'')+'" data-import>'+(importArmed?'Load now':'Load from text')+'</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r21 · carbon skin</div></div>';
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r22 · glass + brutal</div></div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
