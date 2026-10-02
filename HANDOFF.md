@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r19` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r20` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r19`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r20`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -84,13 +84,13 @@ Backups to restore data are at the bottom of this file.
 ---
 
 ## Build log (r1 → r14)
-r1 base app → sync → profiles → guided runner/home/Excel → calendar → Spotify (removed) → next-date = last+2 → home last-line trimmed → big rest timer → Air Squats → 5kg plate-ramp warmups → plate graphics redesign → plate inventory tickboxes → **r+: quit button fix (two-tap)** → apple-touch-icon → standalone/download fallback → **dvh bottom-bar fix** → **r7 backup-import fix (two-tap)** → **r8 landscape allowed + wake lock + louder bell** → **r9 no rest between lifts** → **r10 set dots on rest** → **r11 landscape rest split + audio-element bell** → **r12 landscape rest timer fit** → **r13 landscape home fit** → **r14 landscape two-column runner + full width** → **r15 training days (per-profile `days`, 0=Sun; empty = every 2nd day), local-time date fix (no UTC off-by-one), silent looping audio keep-alive for the bell, 2-col landscape Progress/Settings, Clear history button** → **r16 bell = WebAudio chime** → **r17 "Forge" theme (ember/rose gradients, glass cards, rest progress bar), centred one-screen landscape layouts for home/runner/rest/intensity/summary, warm-up counter fix** → **r18 "Volt" theme: dark-only (lime→cyan neon on near-black, grid + violet glow, italic caps titles); theme setting is now dark/light** → **r19 six selectable skins (Settings → Style; `S.skin`: volt/ember/aurora/gold/neon/stealth, applied as `data-skin` on `<html>` overriding --go/--go2/--glow etc.)**.
+r1 base app → sync → profiles → guided runner/home/Excel → calendar → Spotify (removed) → next-date = last+2 → home last-line trimmed → big rest timer → Air Squats → 5kg plate-ramp warmups → plate graphics redesign → plate inventory tickboxes → **r+: quit button fix (two-tap)** → apple-touch-icon → standalone/download fallback → **dvh bottom-bar fix** → **r7 backup-import fix (two-tap)** → **r8 landscape allowed + wake lock + louder bell** → **r9 no rest between lifts** → **r10 set dots on rest** → **r11 landscape rest split + audio-element bell** → **r12 landscape rest timer fit** → **r13 landscape home fit** → **r14 landscape two-column runner + full width** → **r15 training days (per-profile `days`, 0=Sun; empty = every 2nd day), local-time date fix (no UTC off-by-one), silent looping audio keep-alive for the bell, 2-col landscape Progress/Settings, Clear history button** → **r16 bell = WebAudio chime** → **r17 "Forge" theme (ember/rose gradients, glass cards, rest progress bar), centred one-screen landscape layouts for home/runner/rest/intensity/summary, warm-up counter fix** → **r18 "Volt" theme: dark-only (lime→cyan neon on near-black, grid + violet glow, italic caps titles); theme setting is now dark/light** → **r19 six selectable skins (Settings → Style; `S.skin`: volt/ember/aurora/gold/neon/stealth, applied as `data-skin` on `<html>` overriding --go/--go2/--glow etc.)** → **r20 Paste button in Manual backup import (iOS wasn't offering paste)**.
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
 - Landscape Progress/Settings are now 2 columns but may still scroll a little.
 - Remove the build marker when done iterating.
-- Repo/deploy: project lives in `C:\Claude Local Files\5x5-tracker`, pushed to GitHub via git (no `gh`/node on this PC).
+- Repo/deploy: project lives in `C:\Claude Local Files\5x5-tracker`; `origin` = https://github.com/LowGodTintyn/5X5.git, signed in via Git Credential Manager, so deploy = `git add -A; git commit; git push origin main` (Pages redeploys in ~1 min). No `gh`/node on this PC; test by loading index.html in the preview browser.
 
 ---
 
@@ -105,6 +105,7 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 ```
 {"v":4,"updatedAt":1,"theme":"auto","currentProfile":"martyn","profileOrder":["martyn"],"profiles":{"martyn":{"id":"martyn","name":"Martyn","unit":"kg","bar":20,"plates":[25,20,15,10,5,2.5,1.25],"rest":180,"next":"A","active":null,"sessions":[],"lastDate":null,"nextDue":null,"workouts":{"A":["squat","bench","row"],"B":["squat","ohp","deadlift"]},"lifts":{"squat":{"name":"Squat","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"bench":{"name":"Bench Press","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"row":{"name":"Barbell Row","sets":5,"reps":5,"inc":2.5,"weight":30,"fails":0,"hist":[]},"ohp":{"name":"Overhead Press","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"deadlift":{"name":"Deadlift","sets":1,"reps":5,"inc":5,"weight":40,"fails":0,"hist":[]}}}}}
 ```
+
 
 
 
