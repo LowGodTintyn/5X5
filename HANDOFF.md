@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r38` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r39` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r38`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r39`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -96,6 +96,8 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 **r37: FORM GUIDE. A "Form" pill button (data-form=<lift id>) sits under the set dots on the workout screen and on the rest screen. It slides in `#formcard` from the right (inside `#app`, so it rotates with the orientation lock; scrim `#formscrim` closes it, as does the X and leaving the workout). The card has an animated side-view stick figure on a canvas (`formDraw`, drawn from CSS vars so it follows every skin), a dashed bar-path line, a phase caption, 5 numbered coaching steps and a "Watch a video" link (YouTube SEARCH url, so it cannot rot). Figures are built from keyframes in the `FORM` table (hip position, torso lean, hand offset) + a 2-bone IK solver `ik()` so limb lengths stay constant; add/adjust a lift by editing `FORM`. Landscape = two-column card. Verified poses for all five lifts via a frozen-clock contact sheet.**
 
 **r38: Form card text lighter (title 500, steps 400, Luxe 200/300; loaded Barlow Condensed 300-700 + Manrope 400-800 so lighter weights exist). The Form button now lives as a direct child of `.runwrap` / `.restmain`, absolutely positioned bottom-left of the whole workout card (those containers reserve bottom padding with !important so nothing overlaps; card skins inset it 22px). Overlap-checked in landscape for volt/zone/luxe/scan/dpixel.**
+
+**r39: Form button moved to the TOP-RIGHT of the whole workout card (absolute in `.runwrap`/`.restmain`; those reserve top padding with !important: 50px portrait, 52px landscape; card skins inset it 22px). Overlap-checked in all 9 skins, both orientations, set + rest screens.**
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
