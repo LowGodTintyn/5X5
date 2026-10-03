@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r44` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r45` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r44`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r45`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -108,6 +108,8 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 **r43: Pixel + Dark Pixels rest clock (and finish time) are now the normal Doto dot-matrix pixel font (diamond-halftone effect and the Chakra Petch font REMOVED); clock sized for Doto (portrait 31vw, landscape 18vw). Also fixed a landscape bug where the Light White/Pixel rest clocks (218px) overlapped the info column: skin landscape clock rules now use `:root.land[data-skin=X] .restmain .rbnum` so they beat the generic `:root.land .restmain .rbnum` rule (same-specificity ties are decided by file order - keep that in mind when adding skin overrides). Verified no overlap/overflow for all 8 skins in landscape.**
 
 **r44: in Pixel + Dark Pixels every clock uses a single pixel dot (U+00B7 middle dot, a one-pixel glyph in Doto) instead of the colon: `clockSep()` in the `mmss()`/`hms()` helpers returns the dot when `S.skin` is `zone`/`dpixel`, else ":" (rest clock, top timer, rating-screen eyebrow, summary time). Swap to U+002E "." if a baseline dot is preferred.**
+
+**r45 (Pixel + Dark Pixels only): (a) colon is now TWO SINGLE SQUARE PIXELS drawn by `.cs` (an empty span with two currentColor background squares sized .108em, rows 1 and 5 of Doto's 7-row digits; `clockSep()` emits it, `hms(ms,true)` forces a plain ":" for the small rating-screen eyebrow; the live clocks now update via innerHTML). This replaces the r44 middle-dot idea. (b) Small pixel text is Silkscreen (400/700, font-synthesis:none) - chosen from a side-by-side test because Pixelify Sans drew 5 like S; Tiny5 was tried and dropped. (c) The Form figure is drawn as real pixel art in these skins: formDraw renders to a low-res offscreen canvas (4px cells), hard-thresholds alpha (no anti-aliasing) and scales up with smoothing off; bar path/plate use the --pix orange. (d) Landscape Progress and the landscape Form card got tighter pixel-only rules because Silkscreen is larger. Overflow/scroll/overlap scans run for both skins in both orientations.**
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
