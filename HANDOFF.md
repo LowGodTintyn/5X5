@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r33` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r34` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r33`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r34`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -88,6 +88,8 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 
 ## Latest changes
 **r32/r33: (a) Claude cloud sync REMOVED (app is standalone; localStorage + Manual backup only; Excel export is a plain browser download); (b) bell is ~9 dB louder (WebAudio: waveshaper-limited master chain `masterOut()`, sustained envelope, 3 rings; measured offline: old RMS 0.205 -> 0.58, peak 0.92, no clipping); (c) every skin now uses ONE font family on every screen (Volt/Aurora/Neon/Glass/Brutal = Barlow Condensed, Scan = Manrope, Luxe = Outfit, Pixel/Dark Pixels = Pixelify Sans + Doto + diamond clock digits) - scan-verified; (d) ORIENTATION LOCK: Settings -> Orientation has Lock portrait / Lock landscape toggles (`S.orient` = auto|portrait|landscape; both off = auto). All layout is now class-driven (`html.land`; the old `@media (orientation:landscape)` blocks were converted by script to `:root.land ...` rules) and viewport units are `calc(N*var(--vw))`/`--vh` so that, when the device is not in the locked orientation, `html.rot` + `rot-cw`/`rot-ccw` rotates `#app` 90deg and swaps --vw/--vh (iOS cannot truly lock, so this emulates it; it also calls screen.orientation.lock() where supported). `#modal` and the toast live inside `#app` so they rotate too. Real orientation = window shape, frozen while an input is focused (keyboard guard)**.
+
+**r34: landscape Calendar = one centred 2-column group (.calwrap grid: month+legend left, grid right); landscape Progress = slim one-row header (.phead) + compact 2x2x1 card grid (.pgrid, last card centred, fits without scrolling); "Scan" skin renamed "Light White" in the UI (key stays `scan`); orientation is re-evaluated on every render + resize + orientation media-query change**.
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
