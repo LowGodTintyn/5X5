@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r34` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r35` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r34`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r35`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
