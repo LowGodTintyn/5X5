@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r36` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r37` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r36`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r37`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -92,6 +92,8 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 **r34: landscape Calendar = one centred 2-column group (.calwrap grid: month+legend left, grid right); landscape Progress = slim one-row header (.phead) + compact 2x2x1 card grid (.pgrid, last card centred, fits without scrolling); "Scan" skin renamed "Light White" in the UI (key stays `scan`); orientation is re-evaluated on every render + resize + orientation media-query change**.
 
 **r36: repeat-set (.rcard.solo) screens show "reps × weight" (e.g. "5 × 75 kg") instead of just the weight; --n includes the prefix so the auto-sizing still fits (worst case "5 × 142.5 kg" verified in all skins, both orientations). Light White swatch is white.**
+
+**r37: FORM GUIDE. A "Form" pill button (data-form=<lift id>) sits under the set dots on the workout screen and on the rest screen. It slides in `#formcard` from the right (inside `#app`, so it rotates with the orientation lock; scrim `#formscrim` closes it, as does the X and leaving the workout). The card has an animated side-view stick figure on a canvas (`formDraw`, drawn from CSS vars so it follows every skin), a dashed bar-path line, a phase caption, 5 numbered coaching steps and a "Watch a video" link (YouTube SEARCH url, so it cannot rot). Figures are built from keyframes in the `FORM` table (hip position, torso lean, hand offset) + a 2-bone IK solver `ik()` so limb lengths stay constant; add/adjust a lift by editing `FORM`. Landscape = two-column card. Verified poses for all five lifts via a frozen-clock contact sheet.**
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
