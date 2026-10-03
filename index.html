@@ -13,7 +13,7 @@
 <meta name="apple-mobile-web-app-title" content="5×5">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Inter:wght@300;400;600&family=Manrope:wght@400;500;600;700;800&family=Michroma&family=Doto:wght@400;700;900&family=Chakra+Petch:wght@700&family=Pixelify+Sans:wght@400;600;700&family=Outfit:wght@200;300;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;500;600;700&family=Inter:wght@300;400;600&family=Manrope:wght@400;500;600;700;800&family=Michroma&family=Doto:wght@400;700;900&family=Pixelify+Sans:wght@400;600;700&family=Outfit:wght@200;300;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#06070b;--surface:#0f1118;--surface-2:#171a24;--line:#232736;--ink:#f2f5fb;--muted:#8d95ab;--faint:#5b6278;--go:#c6ff3d;--go2:#27e1ff;--go-ink:#07110a;--warn:#ffb020;--bad:#ff4d6d;--accent:#c6ff3d;--glow:rgba(198,255,61,.28);--vio:rgba(139,92,255,.22);--grid:rgba(255,255,255,.028);--glass:rgba(10,12,18,.78);--hl:rgba(255,255,255,.05);--shadow:0 1px 2px rgba(0,0,0,.5),0 12px 34px rgba(0,0,0,.5);box-sizing:border-box;color-scheme:dark;}
 :root[data-skin="neon"]{--go:#ff2bd6;--go2:#7a5cff;--go-ink:#14041a;--accent:#ff5be0;--glow:rgba(255,43,214,.28);--vio:rgba(60,140,255,.24)}
@@ -278,7 +278,7 @@ body{background:radial-gradient(760px 460px at 8% -10%,var(--glow),transparent 6
 :root[data-skin="zone"] .hd .tag{font-size:32px;letter-spacing:1px;text-transform:uppercase}
 :root[data-skin="zone"] .rname{font-size:30px;text-transform:uppercase}
 :root[data-skin="zone"] .rcard .bw{font-size:60px;letter-spacing:1px}
-:root[data-skin="zone"] .rbnum{font-size:min(calc(38*var(--vw)),calc(22*var(--vh)));letter-spacing:2px;text-shadow:3px 3px 0 rgba(0,0,0,.12)}
+:root[data-skin="zone"] .rbnum{font-size:min(calc(31*var(--vw)),calc(22*var(--vh)));letter-spacing:2px}
 :root[data-skin="zone"] .sumbig .st{font-size:60px;letter-spacing:1px}
 :root[data-skin="zone"] .calm{font-size:24px;text-transform:uppercase}
 :root[data-skin="zone"] .big-btn{font-size:18px;letter-spacing:1.5px;text-transform:uppercase}
@@ -294,8 +294,8 @@ body{background:radial-gradient(760px 460px at 8% -10%,var(--glow),transparent 6
 :root[data-skin="zone"] #tabs{border-radius:0;border-top:2px solid var(--pix)}
 :root[data-skin="zone"] #tabs button.on::before{background:var(--pix)}
 :root[data-skin="zone"] .pchip{border-radius:0}
-:root.land[data-skin="scan"] .rbnum{font-size:min(calc(20*var(--vw)),calc(46*var(--vh)))}
-:root.land[data-skin="zone"] .rbnum{font-size:min(calc(22*var(--vw)),calc(52*var(--vh)))}
+:root.land[data-skin="scan"] .restmain .rbnum{font-size:min(calc(20*var(--vw)),calc(46*var(--vh)))}
+:root.land[data-skin="zone"] .restmain .rbnum{font-size:min(calc(18*var(--vw)),calc(52*var(--vh)))}
 :root.land[data-skin="zone"] .rcard .bw{font-size:56px}
 :root.land[data-skin="zone"] .sumbig .st{font-size:min(calc(11*var(--vw)),calc(22*var(--vh)))}
 
@@ -426,7 +426,6 @@ html.rot.rot-ccw #app{top:100%;transform:rotate(-90deg)}
 :root:is([data-skin="zone"],[data-skin="dpixel"]) .rcard .lbl{color:var(--ink);opacity:.75;letter-spacing:2px}
 :root[data-skin="zone"] :is(.set .item .k,.hint,.cap,.empty,.last-line,.home-due,.rbnext,.legend span,.callegend span){font-weight:400}
 /* ---- Zone: diamond-dot (halftone) numerals ---- */
-:root[data-skin="zone"] :is(.rbnum,.sumbig .st){font-family:"Chakra Petch","Arial Black",sans-serif!important;font-weight:700!important;color:transparent!important;-webkit-text-fill-color:transparent;background-color:transparent!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpolygon points='5,0.3 9.7,5 5,9.7 0.3,5' fill='%230e0e0e'/%3E%3C/svg%3E")!important;background-size:max(3px,.042em) max(3px,.042em)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:none!important;letter-spacing:.03em}
 :root[data-skin="zone"] .rcard .bw small{-webkit-text-fill-color:var(--muted);font-family:Doto,monospace!important}
 textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default;font-size:16px!important}
 .skins{display:flex;flex-wrap:wrap;gap:12px;padding:6px 16px 14px}
@@ -512,7 +511,7 @@ textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default
 :root[data-skin="dpixel"] .hd .tag{font-size:32px;letter-spacing:1px;text-transform:uppercase}
 :root[data-skin="dpixel"] .rname{font-size:30px;text-transform:uppercase}
 :root[data-skin="dpixel"] .rcard .bw{font-size:60px;letter-spacing:1px}
-:root[data-skin="dpixel"] .rbnum{font-size:min(calc(38*var(--vw)),calc(22*var(--vh)));letter-spacing:2px;text-shadow:3px 3px 0 rgba(0,0,0,.12)}
+:root[data-skin="dpixel"] .rbnum{font-size:min(calc(31*var(--vw)),calc(22*var(--vh)));letter-spacing:2px}
 :root[data-skin="dpixel"] .sumbig .st{font-size:60px;letter-spacing:1px}
 :root[data-skin="dpixel"] .calm{font-size:24px;text-transform:uppercase}
 :root[data-skin="dpixel"] .big-btn{font-size:18px;letter-spacing:1.5px;text-transform:uppercase}
@@ -531,9 +530,8 @@ textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default
 :root[data-skin="dpixel"] :not(svg):not(svg *):not(textarea){font-family:"Pixelify Sans","Courier New",monospace!important}
 :root[data-skin="dpixel"] #tabs button{font-size:12px;font-weight:600}
 :root[data-skin="dpixel"] :is(.set .item .k,.hint,.cap,.empty,.last-line,.home-due,.rbnext,.legend span,.callegend span){font-weight:400}
-:root[data-skin="dpixel"] :is(.rbnum,.sumbig .st){font-family:"Chakra Petch","Arial Black",sans-serif!important;font-weight:700!important;color:transparent!important;-webkit-text-fill-color:transparent;background-color:transparent!important;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10'%3E%3Cpolygon points='5,0.3 9.7,5 5,9.7 0.3,5' fill='%23ece9e1'/%3E%3C/svg%3E")!important;background-size:max(3px,.042em) max(3px,.042em)!important;-webkit-background-clip:text!important;background-clip:text!important;text-shadow:none!important;letter-spacing:.03em}
 :root[data-skin="dpixel"] .rcard .bw small{-webkit-text-fill-color:var(--muted);font-family:Doto,monospace!important}
-:root.land[data-skin="dpixel"] .rbnum{font-size:min(calc(22*var(--vw)),calc(52*var(--vh)))}
+:root.land[data-skin="dpixel"] .restmain .rbnum{font-size:min(calc(18*var(--vw)),calc(52*var(--vh)))}
 :root.land[data-skin="dpixel"] .rcard .bw{font-size:56px}
 :root.land[data-skin="dpixel"] .sumbig .st{font-size:min(calc(11*var(--vw)),calc(22*var(--vh)))}
 
@@ -547,7 +545,7 @@ textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default
 :root[data-skin="dscan"] .rbar{background:#2b2f33;height:8px}
 :root[data-skin="dscan"] .rbar i{background:linear-gradient(90deg,var(--go),var(--go2));box-shadow:none}
 :root[data-skin="dscan"] #tabs{border-radius:0;box-shadow:none}
-:root.land[data-skin="dscan"] .rbnum{font-size:min(calc(20*var(--vw)),calc(46*var(--vh)))}
+:root.land[data-skin="dscan"] .restmain .rbnum{font-size:min(calc(20*var(--vw)),calc(46*var(--vh)))}
 :root[data-skin="dscan"] :not(svg):not(svg *):not(textarea){font-family:Manrope,system-ui,sans-serif!important}
 :root[data-skin="dscan"] :is(.pcard .pn,.ccell .cn,.set h3){font-weight:800}
 :root[data-skin="dscan"]{--cw:.66}
@@ -772,7 +770,7 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   '<div class="set"><h3>Style</h3><div class="skins">'+SKINS.map(function(k){return '<button class="sk'+(((S.skin||"luxe")===k[0])?' on':'')+'" data-skin="'+k[0]+'"><i style="background:linear-gradient(135deg,'+k[2]+','+k[3]+')"></i>'+k[1]+'</button>';}).join("")+'</div></div>'+
   '<div class="set"><h3>Orientation</h3><div class="item"><div class="k">Lock portrait<small>stay upright even if you turn the phone</small></div><button class="sw'+(S.orient==="portrait"?' on':'')+'" data-orient="portrait" aria-pressed="'+(S.orient==="portrait")+'"><i></i></button></div><div class="item"><div class="k">Lock landscape<small>stay sideways even if you hold it upright</small></div><button class="sw'+(S.orient==="landscape"?' on':'')+'" data-orient="landscape" aria-pressed="'+(S.orient==="landscape")+'"><i></i></button></div><div class="hint">Both off = automatic (follows your phone).</div></div>'+
   '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io"'+(importArmed?' placeholder="Paste the full backup text here, then tap Load now"':' readonly onclick="this.select()"')+'>'+(importArmed?'':escapeHtml(JSON.stringify(S)))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button>'+(importArmed?'<button class="btn" data-paste>Paste</button>':'')+'<button class="btn'+(importArmed?' danger':'')+'" data-import>'+(importArmed?'Load now':'Load from text')+'</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r42 · luxe default</div></div>';
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r43 · pixel clock</div></div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
@@ -880,7 +878,7 @@ document.addEventListener("visibilitychange",function(){if(document.visibilitySt
 var lastReal=null;function realOrient(){var a=document.activeElement,typing=a&&(a.tagName==="INPUT"||a.tagName==="TEXTAREA");if(typing&&lastReal)return lastReal;lastReal=window.innerWidth>window.innerHeight?"land":"port";return lastReal;}
 function applyOrient(){var m=S.orient||"auto",h=document.documentElement,real=realOrient(),want=m==="landscape"?"land":(m==="portrait"?"port":real),rot=want!==real;h.classList.toggle("land",want==="land");h.classList.toggle("rot",rot);h.classList.toggle("rot-cw",rot&&want==="land");h.classList.toggle("rot-ccw",rot&&want==="port");h.style.setProperty("--vw",rot?"1vh":"1vw");h.style.setProperty("--vh",rot?"1vw":"1vh");}
 function lockOrient(){try{var so=screen.orientation,m=S.orient||"auto";if(so&&so.lock){if(m==="auto"){if(so.unlock)so.unlock();}else{var p=so.lock(m);if(p&&p.catch)p.catch(function(){});}}}catch(e){}}
-window.addEventListener("resize",applyOrient);try{var mqo=window.matchMedia("(orientation:landscape)");if(mqo.addEventListener)mqo.addEventListener("change",applyOrient);else if(mqo.addListener)mqo.addListener(applyOrient);}catch(e){}window.addEventListener("focusout",function(){setTimeout(applyOrient,350);});window.addEventListener("orientationchange",function(){applyOrient();setTimeout(applyOrient,300);});function boot(){if(S.skinMig!==1){S.skin="luxe";S.skinMig=1;saveLocal();}applyOrient();lockOrient();try{["900 40px Doto","700 40px 'Pixelify Sans'","700 40px 'Chakra Petch'","200 40px Outfit","800 40px Manrope","300 40px Inter"].forEach(function(f){document.fonts.load(f);});}catch(e){}bellEl=document.getElementById("bell");safeRender();}
+window.addEventListener("resize",applyOrient);try{var mqo=window.matchMedia("(orientation:landscape)");if(mqo.addEventListener)mqo.addEventListener("change",applyOrient);else if(mqo.addListener)mqo.addListener(applyOrient);}catch(e){}window.addEventListener("focusout",function(){setTimeout(applyOrient,350);});window.addEventListener("orientationchange",function(){applyOrient();setTimeout(applyOrient,300);});function boot(){if(S.skinMig!==1){S.skin="luxe";S.skinMig=1;saveLocal();}applyOrient();lockOrient();try{["900 40px Doto","700 40px 'Pixelify Sans'","200 40px Outfit","800 40px Manrope","300 40px Inter"].forEach(function(f){document.fonts.load(f);});}catch(e){}bellEl=document.getElementById("bell");safeRender();}
 boot();
 })();
 </script>

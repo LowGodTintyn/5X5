@@ -10,7 +10,7 @@ A self-built **Stronglifts 5×5 workout tracker**: a single, self-contained `ind
 - **Live app (use this):** https://lowgodtintyn.github.io/5X5/
 - **GitHub repo:** `LowGodTintyn/5X5` — the file is `index.html` at the repo root, served by GitHub Pages.
 - **Claude artifact copy (backup/dev):** https://claude.ai/artifact/1yYSjNnk3HfpzJE4C5BVDw
-- **Current build:** `r42` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
+- **Current build:** `r43` (shown as a marker at the bottom of the Settings tab — **bump this string on every change** so the user can confirm they're on the new version: cached old copies are a recurring gotcha).
 
 User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
@@ -18,7 +18,7 @@ User: **Martyn** — returning lifter, every-second-day, kg, in Australia.
 
 ## How to edit & test (important conventions)
 - **One file.** Everything lives in `index.html`. All JS is inside a single IIFE in the one `<script>` block.
-- **Always bump the build marker** in `renderSettings` (search `build r42`) when you change anything.
+- **Always bump the build marker** in `renderSettings` (search `build r43`) when you change anything.
 - **Syntax check:** extract the script and run node:
   ```
   awk '/^<script>$/{f=1;next} /^<\/script>$/{f=0} f' index.html > /tmp/app.js && node --check /tmp/app.js
@@ -104,6 +104,8 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 **r41: beep pitch lowered a lot: 330 Hz triangle + 660/990 Hz sine harmonics (was 1047/2093 Hz), 0.65s, same measured level (peak 0.90). Do not go much below ~250 Hz: phone speakers roll off there. Change it in `beep()`.**
 
 **r42: Aurora + Glass DELETED. New "Dark White" skin (key `dscan`), generated from the Light White (`scan`) rules with a dark palette (page #0c0d0b, cards #16181a, lime #b4ec2f accents) - like Dark Pixels, if you change Light White CSS mirror it into the dscan block at the end of <style>. 8 skins now, in picker order: luxe (DEFAULT), volt, neon, brutal, scan (Light White), dscan (Dark White), zone (Pixel), dpixel (Dark Pixels). Luxe is the default for new/unset installs (`<html data-skin="luxe">`, fallback in render()), and a one-time migration in boot() (`S.skinMig`) switched existing installs to Luxe once.**
+
+**r43: Pixel + Dark Pixels rest clock (and finish time) are now the normal Doto dot-matrix pixel font (diamond-halftone effect and the Chakra Petch font REMOVED); clock sized for Doto (portrait 31vw, landscape 18vw). Also fixed a landscape bug where the Light White/Pixel rest clocks (218px) overlapped the info column: skin landscape clock rules now use `:root.land[data-skin=X] .restmain .rbnum` so they beat the generic `:root.land .restmain .rbnum` rule (same-specificity ties are decided by file order - keep that in mind when adding skin overrides). Verified no overlap/overflow for all 8 skins in landscape.**
 
 ## Open / possible next items
 - Confirm on device that the **bell** now sounds with the mute switch on (r15 added a silent looping audio keep-alive + `audioSession.type="playback"`).
