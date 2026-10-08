@@ -135,3 +135,6 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 {"v":4,"updatedAt":1,"theme":"auto","currentProfile":"martyn","profileOrder":["martyn"],"profiles":{"martyn":{"id":"martyn","name":"Martyn","unit":"kg","bar":20,"plates":[25,20,15,10,5,2.5,1.25],"rest":180,"next":"A","active":null,"sessions":[],"lastDate":null,"nextDue":null,"workouts":{"A":["squat","bench","row"],"B":["squat","ohp","deadlift"]},"lifts":{"squat":{"name":"Squat","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"bench":{"name":"Bench Press","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"row":{"name":"Barbell Row","sets":5,"reps":5,"inc":2.5,"weight":30,"fails":0,"hist":[]},"ohp":{"name":"Overhead Press","sets":5,"reps":5,"inc":2.5,"weight":20,"fails":0,"hist":[]},"deadlift":{"name":"Deadlift","sets":1,"reps":5,"inc":5,"weight":40,"fails":0,"hist":[]}}}}}
 ```
 
+
+## r48 - live heart-rate removed
+Removed Web Bluetooth HR (chip, settings sensor section, hrsample bridge, CSS). Kept manual per-interval HR stepper, hrs/hrAvg/hrMax fields, zone cues, Cardio Load. Next: post-workout import from Google Health (needs relay; see discussion) - not built yet.

@@ -568,17 +568,7 @@ textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default
 .cwk i{display:inline-block;width:13px;height:13px;border-radius:50%;border:1.5px solid var(--line);margin-right:5px;vertical-align:middle}
 .cwk i.on{background:var(--go);border-color:var(--go)}
 .chip{display:inline-block;padding:4px 11px;border-radius:99px;background:var(--surface-2);border:1px solid var(--line);font-size:12.5px;color:var(--ink)}
-:root:is([data-skin="zone"],[data-skin="dpixel"]) :is(.cwk i,.chip,.hrchip){border-radius:0}
-.hrchip{display:inline-flex;align-items:center;gap:7px;min-height:34px;padding:0 14px;border-radius:999px;background:var(--surface-2);border:1.5px solid var(--line);color:var(--ink);font-size:13px;font-weight:600;margin:8px 0 2px}
-.hrchip .hrh{color:var(--bad);font-size:15px;display:inline-block}
-.hrchip b{font-size:22px;line-height:1}
-.hrchip small{color:var(--muted);font-size:12px}
-.hrchip.on .hrh{animation:hrbeat 1s ease-in-out infinite}
-@keyframes hrbeat{0%,100%{transform:scale(1)}50%{transform:scale(1.28)}}
-.hrchip.z-in{border-color:var(--go)}
-.hrchip.z-high{border-color:var(--warn)}
-.hrchip.z-low{border-color:var(--warn)}
-.homer .hrchip{margin:0 0 8px;align-self:flex-start}
+:root:is([data-skin="zone"],[data-skin="dpixel"]) :is(.cwk i,.chip){border-radius:0}
 .cph{font-size:26px;line-height:1;margin:2px 0 4px;text-transform:uppercase;letter-spacing:.5px}
 .cph.k-work{color:var(--acc-text,var(--go))}
 .ccue{color:var(--muted);font-size:13.5px;line-height:1.4;margin:6px auto 4px;max-width:340px}
@@ -603,8 +593,6 @@ textarea{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default
 :root.land .cmain .cl-s{margin-top:2px;font-size:11.5px;min-height:0}
 :root.land .cmain .cbtns{margin-top:5px}
 :root.land .cmain .cbtns .big-btn{height:34px;font-size:13.5px}
-:root.land .cmain .hrchip{margin:3px 0 1px;min-height:28px}
-:root.land .cmain .hrchip b{font-size:18px}
 :root.land .cmain .rbnext{margin-top:3px;font-size:12px}
 .csum .ctab{padding:8px 12px;margin:0 0 10px}
 .ct-h,.ct-r{display:grid;grid-template-columns:.5fr 1.4fr 1.3fr 1fr;gap:6px;align-items:center;padding:5px 2px;font-size:13px}
@@ -831,25 +819,6 @@ function cSessLoad(s){return (typeof s.load==="number")?s.load:cLoadOf(s).v;}
 function cWeekLoads(n){var map={};P.cardio.sessions.forEach(function(s){var k=wkKey(s.d);map[k]=(map[k]||0)+cSessLoad(s);});var out=[],d=new Date(wkKey(today())+"T00:00:00");for(var i=0;i<n;i++){var k=isoLocal(d);out.unshift({k:k,c:Math.round(map[k]||0)});d.setDate(d.getDate()-7);}return out;}
 function cWeekLoad(){return cWeekLoads(1)[0].c;}
 
-/* ----- heart rate (standard BLE Heart Rate Service; also a bridge event for native wrappers) ----- */
-var hr={now:0,at:0,dev:null,name:"",state:"off",retry:0};
-function hrSupported(){return !!(navigator.bluetooth&&navigator.bluetooth.requestDevice);}
-function hrParse(dv){var f=dv.getUint8(0);return (f&1)?dv.getUint16(1,true):dv.getUint8(1);}
-function hrFresh(){return hr.now>0&&Date.now()-hr.at<6000;}
-function hrPush(b){b=Math.round(+b);if(!(b>30&&b<250))return;hr.now=b;hr.at=Date.now();if(hr.state!=="on"){hr.state="on";if(!hr.name)hr.name="Heart-rate feed";}hrUI();}
-function hrZone(){var A=P.cact;if(!A||!hrFresh())return "";var ph=A.phases[A.idx];if(!ph)return "";var c=ccfg(),lo,hi;if(ph.k==="work"){lo=c.hrmax*c.zlo/100;hi=c.hrmax*c.zhi/100;}else if(ph.k==="rest"||ph.k==="cool"){lo=c.hrmax*c.rlo/100;hi=c.hrmax*c.rhi/100;}else return "";return hr.now<lo?(ph.k==="work"?"low":"in"):(hr.now>hi?"high":"in");}
-function hrChipInner(){if(hrFresh())return '<span class="hrh">♥</span><b class="num">'+hr.now+'</b><small>bpm</small>';if(hr.state==="connecting")return '<span class="hrh">♥</span><small>connecting…</small>';if(hr.state==="on")return '<span class="hrh">♥</span><small>waiting for signal…</small>';return '<span class="hrh">♥</span><small>Connect heart rate</small>';}
-function hrUI(){var z=hrZone(),els=document.querySelectorAll(".hrchip"),i;for(i=0;i<els.length;i++){els[i].innerHTML=hrChipInner();els[i].className="hrchip"+(hr.state==="on"?" on":"")+(z?" z-"+z:"");}var lb=document.querySelectorAll("[data-hrlabel]");for(i=0;i<lb.length;i++){lb[i].textContent=hr.state==="on"?("Heart rate: "+(hrFresh()?hr.now+" bpm":"connected")+" · tap to disconnect"):"Connect heart-rate sensor";}}
-async function hrConnect(){
-  if(hr.state==="on"&&hr.dev&&hr.dev.gatt&&hr.dev.gatt.connected){try{hr.retry=9;hr.dev.gatt.disconnect();}catch(e){}hr.state="off";hr.now=0;hrUI();toast("Heart-rate sensor disconnected");return;}
-  if(!hrSupported()){toast("iPhone home-screen apps can’t use Bluetooth sensors. Type heart rate in after each interval, or use Chrome on Android/desktop for live heart rate.");return;}
-  try{hr.state="connecting";hr.retry=0;hrUI();var d=await navigator.bluetooth.requestDevice({filters:[{services:["heart_rate"]},{namePrefix:"Fitbit"}],optionalServices:["heart_rate"]});hr.dev=d;hr.name=d.name||"Heart-rate sensor";d.addEventListener("gattserverdisconnected",hrLost);await hrOpen(d);}
-  catch(e){hr.state="off";hrUI();if(e&&e.name!=="NotFoundError"){toast("Couldn’t connect: "+((e&&e.message)||e)+". On the Fitbit Air turn on Share heart rate first.");}}
-}
-async function hrOpen(d){var s=await d.gatt.connect(),svc=await s.getPrimaryService("heart_rate"),ch=await svc.getCharacteristic("heart_rate_measurement");await ch.startNotifications();ch.addEventListener("characteristicvaluechanged",function(ev){hrPush(hrParse(ev.target.value));});hr.state="on";hr.retry=0;hrUI();toast("Heart rate connected: "+hr.name);}
-function hrLost(){hr.state="off";hr.now=0;hrUI();if(hr.dev&&hr.retry<3){hr.retry++;setTimeout(function(){hr.state="connecting";hrUI();hrOpen(hr.dev).catch(function(){hrLost();});},2000);}else if(hr.retry<9){toast("Heart-rate sensor lost");}}
-window.addEventListener("hrsample",function(e){hrPush(e&&e.detail);});
-
 /* ----- session engine ----- */
 function cPhases(){var c=ccfg(),ph=[];if(c.warm>0)ph.push({k:"warm",sec:c.warm});for(var i=0;i<c.sets;i++){ph.push({k:"work",i:i,sec:c.work});if(i<c.sets-1)ph.push({k:"rest",i:i,sec:c.rest});}if(c.cool>0)ph.push({k:"cool",i:c.sets-1,sec:c.cool});return ph;}
 function cardioStart(){
@@ -861,7 +830,6 @@ function cardioStart(){
 function cSuggest(A,i){if(i>0&&A.iv[i-1].dist>0)return A.iv[i-1].dist;var L=cLast();if(L&&L.iv&&L.iv[i]&&L.iv[i].dist>0)return L.iv[i].dist;if(L){var st=cStats(L);if(st.n)return Math.round(st.hard/st.n/10)*10;}return 1000;}
 function cPhaseStart(A){var ph=A.phases[A.idx];if(ph&&(ph.k==="rest"||ph.k==="cool")){var v=A.iv[ph.i];if(!(v.dist>0))v.dist=cSuggest(A,ph.i);}}
 function cPhaseEnd(A){var ph=A.phases[A.idx];if(ph&&ph.k==="work"){var v=A.iv[ph.i];v.done=true;if(v.hrN>0&&!v.hrMan)v.hrAvg=Math.round(v.hrSum/v.hrN);}}
-function cSample(A,now){if(!hrFresh()||now-(A.lastSample||0)<1000)return;A.lastSample=now;var ph=A.phases[A.idx];if(!ph)return;var b=hr.now;A.hrAll.sum+=b;A.hrAll.n++;if(b>A.hrAll.max)A.hrAll.max=b;if(ph.k==="work"){var v=A.iv[ph.i];v.hrSum+=b;v.hrN++;if(b>v.hrMax)v.hrMax=b;}if(!A.lastPush||now-A.lastPush>=5000){A.lastPush=now;A.hrs.push([Math.round((now-A.startedAt-(A.pt||0))/1000),b]);}}
 function cAdvance(quiet,skip){var A=P.cact;if(!A)return;cPhaseEnd(A);A.idx++;var te=Math.round((Date.now()-A.startedAt-(A.pt||0))/1000);if(!A.marks)A.marks=[[0,0]];A.marks.push([te,A.idx]);if(A.idx>=A.phases.length){if(!quiet)beep();cFinishAll();return;}A.pStart=skip?Date.now():A.pEnd;A.pEnd=A.pStart+A.phases[A.idx].sec*1000;cPhaseStart(A);cLastTick=0;if(!quiet)beep();save();safeRender();}
 function cFinishAll(){var A=P.cact;if(!A)return;A.idx=A.phases.length;mode="cardiosum";stopCTick();save();safeRender();}
 function startCTick(){if(cTickInt)return;cTickInt=setInterval(cardioTick,250);}
@@ -870,10 +838,10 @@ function cUpdateClock(){var A=P.cact;if(!A||A.idx>=A.phases.length)return;var ph
 function cardioTick(){
   var A=P.cact;if(mode!=="cardio"||!A){stopCTick();return;}
   if(A.paused){cUpdateClock();return;}
-  var now=Date.now();cSample(A,now);
+  var now=Date.now();
   if(now>=A.pEnd){var late=now-A.pEnd;cAdvance(late>2500);var B=P.cact;var g=0;while(B&&mode==="cardio"&&B.idx<B.phases.length&&Date.now()>=B.pEnd&&g++<12){cAdvance(true);B=P.cact;}return;}
   var left=Math.ceil((A.pEnd-now)/1000);if(left<=3&&left>0&&left!==cLastTick){tick();cLastTick=left;}
-  cUpdateClock();var z=hrZone(),ch=document.querySelector(".cinfo .hrchip");if(ch){var base="hrchip"+(hr.state==="on"?" on":"")+(z?" z-"+z:"");if(ch.className!==base){ch.className=base;}ch.innerHTML=hrChipInner();}
+  cUpdateClock();
 }
 function cardioPause(){var A=P.cact;if(!A)return;if(!A.paused){A.paused=1;A.pauseAt=Date.now();}else{var d=Date.now()-A.pauseAt;A.pEnd+=d;A.pt=(A.pt||0)+d;A.paused=0;}save();safeRender();}
 function cardioQuit(){P.cact=null;mode="home";cquitArmed=false;stopCTick();save();safeRender();}
@@ -900,9 +868,8 @@ function renderCardio(){
   var ph=A.phases[A.idx],now=A.paused?A.pauseAt:Date.now(),left=Math.max(0,Math.ceil((A.pEnd-now)/1000)),done=A.iv.filter(function(v){return v.done;}).length;
   var dots='<span class="sd">'+A.iv.map(function(v,i){var cur=ph.k==="work"&&ph.i===i;return '<i class="'+((v.done||cur)?"on":"")+'"></i>';}).join("")+'</span>';
   var log=(ph.k==="rest"||ph.k==="cool")?clogHtml(A,ph):"";
-  var z=hrZone();
   document.getElementById("view").innerHTML='<div class="rtop"><span>4×4 ROW · PHASE '+(A.idx+1)+' OF '+A.phases.length+'</span><span class="tt" id="cttime">'+hms(now-A.startedAt-(A.pt||0))+'</span></div>'+
-  '<div class="restmain cmain'+(log?' withlog':'')+'"><div class="rbnum num" id="ctime">'+mmss(left)+'</div><div class="restinfo cinfo"><div class="cph num k-'+ph.k+'">'+cLabel(ph,A)+(A.paused?' · PAUSED':'')+'</div><div class="rsets">'+dots+'<span>'+done+' of '+A.cfg.sets+' intervals done</span></div><div class="ccue">'+cCue(ph,A)+'</div><button class="hrchip'+(hr.state==="on"?" on":"")+(z?" z-"+z:"")+'" data-hr>'+hrChipInner()+'</button><div class="rbar"><i id="cbar" style="width:'+Math.min(100,Math.round((A.pEnd-now)/(ph.sec*10)))+'%"></i></div><div class="rbnext">'+cNextText(A)+'</div>'+log+'<div class="cbtns"><button class="big-btn ghost" data-cpause>'+(A.paused?'Resume':'Pause')+'</button><button class="big-btn ghost" data-cskip>Skip</button></div></div></div>'+cQuitBtn(A);
+  '<div class="restmain cmain'+(log?' withlog':'')+'"><div class="rbnum num" id="ctime">'+mmss(left)+'</div><div class="restinfo cinfo"><div class="cph num k-'+ph.k+'">'+cLabel(ph,A)+(A.paused?' · PAUSED':'')+'</div><div class="rsets">'+dots+'<span>'+done+' of '+A.cfg.sets+' intervals done</span></div><div class="ccue">'+cCue(ph,A)+'</div><div class="rbar"><i id="cbar" style="width:'+Math.min(100,Math.round((A.pEnd-now)/(ph.sec*10)))+'%"></i></div><div class="rbnext">'+cNextText(A)+'</div>'+log+'<div class="cbtns"><button class="big-btn ghost" data-cpause>'+(A.paused?'Resume':'Pause')+'</button><button class="big-btn ghost" data-cskip>Skip</button></div></div></div>'+cQuitBtn(A);
 }
 function renderCardioSum(){
   stopCTick();var A=P.cact;if(!A){mode="home";return renderHome();}
@@ -921,7 +888,7 @@ function cardioCardHtml(){
   var last="";if(L){var st=cStats(L);last='<div class="last-line">Last: '+prettyDate(L.d)+' · '+(st.n?st.n+' × '+thou(st.hard/st.n)+' m · '+fmtSplit(st.split)+' /500 m':'no distance logged')+'</div>';}
   var btn=P.cact?'<button class="big-btn" data-cresume>Resume cardio</button>':'<button class="big-btn" data-cstart>Start cardio</button>';
   var proto=(c.warm?mins(c.warm)+' min warm-up · ':'')+c.sets+' × '+mins(c.work)+' min hard · '+mins(c.rest)+' min easy';
-  return '<div class="homewrap cardiocard"><div class="homel"><div class="home-eyebrow">CARDIO</div><div class="home-wk">'+c.sets+' × '+mins(c.work)+' Row</div><div class="home-due">'+proto+'</div><div class="cstats"><span class="cwk" title="sessions this week">'+wd+'</span><span class="chip">'+tw+' / '+t+' this week</span>'+(streak?'<span class="chip">'+streak+' wk streak</span>':'')+(cWeekLoad()?'<span class="chip">load '+cWeekLoad()+'</span>':'')+'</div></div><div class="homer"><button class="hrchip'+(hr.state==="on"?" on":"")+'" data-hr>'+hrChipInner()+'</button>'+btn+last+'</div></div>';
+  return '<div class="homewrap cardiocard"><div class="homel"><div class="home-eyebrow">CARDIO</div><div class="home-wk">'+c.sets+' × '+mins(c.work)+' Row</div><div class="home-due">'+proto+'</div><div class="cstats"><span class="cwk" title="sessions this week">'+wd+'</span><span class="chip">'+tw+' / '+t+' this week</span>'+(streak?'<span class="chip">'+streak+' wk streak</span>':'')+(cWeekLoad()?'<span class="chip">load '+cWeekLoad()+'</span>':'')+'</div></div><div class="homer">'+btn+last+'</div></div>';
 }
 function renderBars(ws,target){var W=300,H=56,n=ws.length,bw=W/n,mx=Math.max(target,1);ws.forEach(function(w){if(w.c>mx)mx=w.c;});var r="",noT=!(target>0);ws.forEach(function(w,i){var h=w.c?Math.max(4,(w.c/mx)*(H-10)):2;r+='<rect x="'+(i*bw+3).toFixed(1)+'" y="'+(H-h).toFixed(1)+'" width="'+(bw-6).toFixed(1)+'" height="'+h.toFixed(1)+'" class="'+((noT||w.c>=target)?"bar ok":"bar")+'" rx="2"/>';});var ty=H-(target/mx)*(H-10);return '<svg class="spark bars" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none">'+r+(noT?'':'<line x1="0" x2="'+W+'" y1="'+ty.toFixed(1)+'" y2="'+ty.toFixed(1)+'" class="tgt"/>')+'</svg>';}
 function cardioProgressHtml(){
@@ -938,8 +905,7 @@ function cardioProgressHtml(){
 }
 function cardioSettingsHtml(){
   var c=ccfg();function row(label,key,steps,val,hint){return '<div class="item cfgrow"><div class="k">'+label+(hint?'<small>'+hint+'</small>':'')+'</div><div class="stepper cstep">'+steps.map(function(s){return s<0?'<button data-cfg="'+key+':'+s+'">−'+Math.abs(s)+'</button>':null;}).filter(Boolean).join("")+'<div class="v num">'+val+'</div>'+steps.map(function(s){return s>0?'<button data-cfg="'+key+':'+s+'">+'+s+'</button>':null;}).filter(Boolean).join("")+'</div></div>';}
-  return '<div class="set"><h3>Cardio 4×4 row</h3>'+row('Intervals','sets',[-1,1],c.sets)+row('Hard interval','work',[-30,30],mss(c.work),'minutes : seconds')+row('Easy rowing between','rest',[-30,30],mss(c.rest))+row('Warm-up','warm',[-30,30],c.warm?mss(c.warm):'off')+row('Cool-down','cool',[-30,30],c.cool?mss(c.cool):'off')+row('Sessions per week','target',[-1,1],c.target,'your consistency goal')+row('Max heart rate','hrmax',[-5,-1,1,5],c.hrmax+' bpm','measured is best; else 208 − 0.7 × age')+row('Resting heart rate','rhr',[-5,-1,1,5],c.rhr+' bpm','see it in Google Health')+row('Cardio load weighting','sex',[-1,1],c.sex?'female':'male','TRIMP method, like Google; approximate')+'<div class="hint">Norwegian 4×4 (Helgerud et al.): 4 × 4 min at 85–95% max HR with 3 min easy between, usually after a longer warm-up. Hard-interval heart rate is set from your max HR above.</div></div>'+
-  '<div class="set"><h3>Heart-rate sensor</h3><div class="item"><div class="k">Fitbit Air or any Bluetooth HR band<small>'+(hrSupported()?'this browser can pair directly':'this browser can’t use Bluetooth (iPhone web apps can’t)')+'</small></div></div><div class="btnrow"><button class="btn" data-hr><span data-hrlabel>'+(hr.state==="on"?'Heart rate: connected · tap to disconnect':'Connect heart-rate sensor')+'</span></button></div><div class="hint">Fitbit Air: open the Google Health app → Connections → Fitbit Air → Share heart rate (turn on “Always visible” if offered), then tap Connect. Works in Chrome/Edge on Android or a computer. On iPhone, type distance and heart rate in after each interval.</div></div>';
+  return '<div class="set"><h3>Cardio 4×4 row</h3>'+row('Intervals','sets',[-1,1],c.sets)+row('Hard interval','work',[-30,30],mss(c.work),'minutes : seconds')+row('Easy rowing between','rest',[-30,30],mss(c.rest))+row('Warm-up','warm',[-30,30],c.warm?mss(c.warm):'off')+row('Cool-down','cool',[-30,30],c.cool?mss(c.cool):'off')+row('Sessions per week','target',[-1,1],c.target,'your consistency goal')+row('Max heart rate','hrmax',[-5,-1,1,5],c.hrmax+' bpm','measured is best; else 208 − 0.7 × age')+row('Resting heart rate','rhr',[-5,-1,1,5],c.rhr+' bpm','see it in Google Health')+row('Cardio load weighting','sex',[-1,1],c.sex?'female':'male','TRIMP method, like Google; approximate')+'<div class="hint">Norwegian 4×4 (Helgerud et al.): 4 × 4 min at 85–95% max HR with 3 min easy between, usually after a longer warm-up. Hard-interval heart rate is set from your max HR above.</div></div>';
 }
 function ptabsHtml(){return '<div class="seg ptabs"><button class="'+(progTab==="strength"?"on":"")+'" data-ptab="strength">Strength</button><button class="'+(progTab==="cardio"?"on":"")+'" data-ptab="cardio">Cardio</button></div>';}
 function renderProgress(){if(progTab==="cardio"){document.getElementById("view").innerHTML='<div class="phead">'+profileBar()+'<div class="hd"><div class="tag num">PROGRESS</div><div class="sub">'+escapeHtml(P.name)+' \u00b7 4\u00d74 row</div></div>'+ptabsHtml()+'</div><div class="cols pgrid">'+cardioProgressHtml()+'</div>';}else renderProgressS();}
@@ -1027,7 +993,7 @@ function renderSettings(){var lifts=["squat","bench","row","ohp","deadlift"];var
   cardioSettingsHtml()+'<div class="set"><h3>Style</h3><div class="skins">'+SKINS.map(function(k){return '<button class="sk'+(((S.skin||"luxe")===k[0])?' on':'')+'" data-skin="'+k[0]+'"><i style="background:linear-gradient(135deg,'+k[2]+','+k[3]+')"></i>'+k[1]+'</button>';}).join("")+'</div></div>'+
   '<div class="set"><h3>Orientation</h3><div class="item"><div class="k">Lock portrait<small>stay upright even if you turn the phone</small></div><button class="sw'+(S.orient==="portrait"?' on':'')+'" data-orient="portrait" aria-pressed="'+(S.orient==="portrait")+'"><i></i></button></div><div class="item"><div class="k">Lock landscape<small>stay sideways even if you hold it upright</small></div><button class="sw'+(S.orient==="landscape"?' on':'')+'" data-orient="landscape" aria-pressed="'+(S.orient==="landscape")+'"><i></i></button></div><div class="hint">Both off = automatic (follows your phone).</div></div>'+
   '<div class="set"><h3>Manual backup</h3><div style="padding:0 16px 8px"><textarea id="io"'+(importArmed?' placeholder="Paste the full backup text here, then tap Load now"':' readonly onclick="this.select()"')+'>'+(importArmed?'':escapeHtml(JSON.stringify(S)))+'</textarea></div><div class="btnrow"><button class="btn" data-copy>Copy backup</button>'+(importArmed?'<button class="btn" data-paste>Paste</button>':'')+'<button class="btn'+(importArmed?' danger':'')+'" data-import>'+(importArmed?'Load now':'Load from text')+'</button></div></div>'+
-  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged strength and cardio sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r47 · cardio 4x4</div></div>';
+  '<div class="set"><h3>Reset</h3><div class="btnrow"><button class="btn danger" data-clear>'+(clearArmed?'Tap again to confirm':'Clear history ('+escapeHtml(P.name)+')')+'</button></div><div class="hint">Wipes logged strength and cardio sessions and charts for '+escapeHtml(P.name)+'. Current weights and settings stay.</div><div class="btnrow"><button class="btn danger" data-wipe>'+(wipeArmed?'Tap again to confirm':'Erase everything')+'</button></div></div>'+'<div style="text-align:center;color:var(--faint);font-size:12px;padding:10px 0 2px">build r48 · no live HR</div></div>';
 }
 function renderModal(){var m=document.getElementById("modal");if(!menuOpen){m.className="modal";m.innerHTML="";return;}var rows=S.profileOrder.filter(function(id){return S.profiles[id];}).map(function(id){var p=S.profiles[id],on=id===S.currentProfile;return '<button class="prow'+(on?" on":"")+'" data-psel="'+id+'">'+escapeHtml(p.name)+(on?'<span class="pck">✓</span>':'<span></span>')+'</button>';}).join("");m.innerHTML='<div class="sheet"><div class="shead">Who\'s lifting?</div>'+rows+'<div class="padd"><input id="pnew" type="text" placeholder="Add a person…" maxlength="24" autocomplete="off"><button data-padd>Add</button></div><button class="sdone" data-pclose>Done</button></div>';m.className="modal open";}
 
@@ -1089,7 +1055,7 @@ async function exportXlsx(){
 /* ---------- events ---------- */
 document.addEventListener("click",function(ev){
   unlockAudio();
-  var t=ev.target.closest("[data-calnav],[data-tab],[data-pmenu],[data-pclose],[data-psel],[data-padd],[data-paddset],[data-pruse],[data-prdel],[data-start],[data-resume],[data-done],[data-skiprest],[data-repminus],[data-repplus],[data-quit],[data-intensity],[data-sumdone],[data-xlsx],[data-hedit],[data-hwadj],[data-incadj],[data-baradj],[data-restadj],[data-plate],[data-theme],[data-copy],[data-import],[data-wipe],[data-clear],[data-day],[data-skin],[data-paste],[data-orient],[data-form],[data-formclose],[data-ptab],[data-cstart],[data-cresume],[data-cpause],[data-cskip],[data-cend],[data-cquit],[data-cdist],[data-chr],[data-crate],[data-hr],[data-cfg]");
+  var t=ev.target.closest("[data-calnav],[data-tab],[data-pmenu],[data-pclose],[data-psel],[data-padd],[data-paddset],[data-pruse],[data-prdel],[data-start],[data-resume],[data-done],[data-skiprest],[data-repminus],[data-repplus],[data-quit],[data-intensity],[data-sumdone],[data-xlsx],[data-hedit],[data-hwadj],[data-incadj],[data-baradj],[data-restadj],[data-plate],[data-theme],[data-copy],[data-import],[data-wipe],[data-clear],[data-day],[data-skin],[data-paste],[data-orient],[data-form],[data-formclose],[data-ptab],[data-cstart],[data-cresume],[data-cpause],[data-cskip],[data-cend],[data-cquit],[data-cdist],[data-chr],[data-crate],[data-cfg]");
   if(!t){if(ev.target&&ev.target.id==="modal"){menuOpen=false;renderModal();}return;}
   var d=t.dataset;
   if(d.tab){mode=d.tab;editOpen=null;homeEdit=null;quitArmed=false;delArm=null;wipeArmed=false;importArmed=false;clearArmed=false;safeRender();return;}
@@ -1130,7 +1096,6 @@ document.addEventListener("click",function(ev){
   if(d.cdist){cLogDist(+d.cdist);return;}
   if(d.chr){cLogHr(+d.chr);return;}
   if(d.crate){cSave(+d.crate);return;}
-  if(t.hasAttribute("data-hr")){hrConnect();return;}
   if(d.cfg){cCfg(d.cfg);return;}
   if(t.hasAttribute("data-formclose")){closeForm();return;}
   if(d.form){openForm(d.form);return;}
