@@ -138,3 +138,6 @@ r1 base app → sync → profiles → guided runner/home/Excel → calendar → 
 
 ## r48 - live heart-rate removed
 Removed Web Bluetooth HR (chip, settings sensor section, hrsample bridge, CSS). Kept manual per-interval HR stepper, hrs/hrAvg/hrMax fields, zone cues, Cardio Load. Next: post-workout import from Google Health (needs relay; see discussion) - not built yet.
+
+## r49 - backup file save/load
+User could not paste into backup box on iPhone. Added Save file (download .json) and Load file (file picker fills box, then Load now). Rotation emulation is suspended while import is armed (transformed views can break iOS paste menu - unconfirmed cause).
