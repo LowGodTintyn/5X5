@@ -141,3 +141,6 @@ Removed Web Bluetooth HR (chip, settings sensor section, hrsample bridge, CSS). 
 
 ## r49 - backup file save/load
 User could not paste into backup box on iPhone. Added Save file (download .json) and Load file (file picker fills box, then Load now). Rotation emulation is suspended while import is armed (transformed views can break iOS paste menu - unconfirmed cause).
+
+## r50 - audio mixes with other apps
+App set navigator.audioSession.type='playback' (non-mixing) which stopped Spotify/audiobooks on open/switch. Now 'ambient' everywhere (ambientAudio(): boot, keepAudioAlive, unlockAudio, beep, visibility). Tradeoff: ambient follows the iPhone silent switch, so beeps are muted when it is on. iOS 16.4+ only; untestable on desktop.
